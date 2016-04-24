@@ -1,9 +1,14 @@
 nginx
 =====
 
+This is a fork of [this repo](https://github.com/bennojoy/nginx.git).
+In this version, it has also the capability to define upstream servers in http.
+
+
 This role installs and configures the nginx web server. The user can specify
 any http configuration parameters they wish to apply their site. Any number of
 sites can be added with configurations of your choice.
+
 
 Requirements
 ------------
@@ -129,6 +134,25 @@ directives.
               location1: {name: /, try_files: "$uri $uri/ /index.html"}
               location2: {name: /images/, try_files: "$uri $uri/ /index.html"}
 
+5) Install Nginx and configure a reverse proxy with 2 backend servers
+
+    ---
+    - hosts: all
+      roles:
+        - role: nginx
+          nginx_http_params:
+            sendfile: "on"
+            access_log: "/var/log/nginx/access.log"
+            upstream: ["192.168.33.11","192.168.33.12"]
+          nginx_sites:
+           - server:
+              file_name: foo
+              listen: 8080
+              server_name: localhost
+              root: "/tmp/site1"
+              location1: {name: /, try_files: "$uri $uri/ /index.html"}
+              location2: {name: /images/, try_files: "$uri $uri/ /index.html"}
+
 Dependencies
 ------------
 
@@ -143,5 +167,5 @@ Author Information
 ------------------
 
 Benno Joy
-
+juanantoniofm.11@gmail.com
 
