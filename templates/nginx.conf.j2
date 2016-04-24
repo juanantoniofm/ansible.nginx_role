@@ -24,7 +24,15 @@ http {
         error_log {{ nginx_log_dir}}/{{ nginx_error_log_name}};
 
 {% for k,v in nginx_http_params.iteritems() %}
-        {{ k }}  {{ v }};
+    {% if k.find('upstream') == -1  %}
+        {{ k }} {{ v }};
+    {% endif %}
+{% endfor %}
+
+{% for k,v in nginx_http_params.iteritems() %}
+    {% if k.find('upstream') != -1  %}
+        {{ k }} {{ v }}
+    {% endif %}
 {% endfor %}
 
         gzip on;
