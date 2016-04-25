@@ -3,6 +3,8 @@ nginx
 
 This is a fork of [this repo](https://github.com/bennojoy/nginx.git).
 In this version, it has also the capability to define upstream servers in http.
+Just add your servers to the upstream key, as you would write them in nginx.conf
+(see example 5)
 
 
 This role installs and configures the nginx web server. The user can specify
@@ -143,7 +145,7 @@ directives.
           nginx_http_params:
             sendfile: "on"
             access_log: "/var/log/nginx/access.log"
-            upstream: ["192.168.33.11","192.168.33.12"]
+            upstream: "myapp { server 192.168.33.11; server 192.168.33.12 }"
           nginx_sites:
            - server:
               file_name: foo
